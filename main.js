@@ -7,13 +7,11 @@ function fetchData(){
   return fetch(url)
   .then(response => response.json())
   .then(data => {
-    console.log('promise', data)
     renderRows(data)
   })
 }// fetch data from db.json local server 
 
 function renderRows(data){
-  console.log(data)
   for (i=0; i<data.length; i++){
 
     let scoresArray = []

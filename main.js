@@ -16,11 +16,22 @@ function renderRows(data){
   console.log(data)
   for (i=0; i<data.length; i++){
     display.insertAdjacentHTML('beforeend',
-      `<tr >
-        <th >Unit ${i + 1}: ${data[i].name}</th>
-        <th > ${getBestScore(data[i])} </th>
-        <th > ${getAverageScore(data[i])} </th>
-        <th> ${getFirstToken(data[i]) === "N/A" ? "N/A" : displayProjectAttempts(data[i])}</th>
+      `<tr style="background-color: ${isEven(i) ? "white": "lightgrey" };">
+        <th >
+          Unit ${i + 1}: ${data[i].name}
+        </th>
+        
+        <th style="color: ${scoreColor(getBestScore(data[i]))};"> 
+          ${getBestScore(data[i])} 
+        </th>
+        
+        <th style= "color: ${scoreColor(getAverageScore(data[i]))};" >
+          ${getAverageScore(data[i])} 
+        </th>
+        
+        <th> 
+          ${getFirstToken(data[i]) === "N/A" ? "N/A" : displayProjectAttempts(data[i])}
+        </th>
       </tr >`
     )
   }
@@ -48,8 +59,6 @@ function getNumberOfAttempts(data){
 function getFirstToken(data){
   let tokenArray = []
   tokenArray = data.submissions.map(sub => sub.token)
-  console.log(tokenArray)
-  console.log('token', tokenArray[0])
   return tokenArray.length > 0 ? tokenArray[0] : "N/A"
 } // getting the first unit out of each 
 
@@ -62,3 +71,21 @@ function displayProjectAttempts(data){
   }
 }//
 
+function scoreColor(scoreValue){
+  if (scoreValue >= 90){
+    return "lightgreen"
+  } else if (scoreValue >= 75 && scoreValue < 90) {
+    return "orange"
+  } else if (scoreValue < 75) {
+    return "lightskyblue"
+  } else if (scoreValue === "N/A"){
+    return "black"
+  }
+}
+
+function isEven(index){
+  if (index%2 === 0) {
+    return true
+  } else
+    return false
+}

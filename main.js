@@ -15,52 +15,51 @@ function fetchData(){
 function renderRows(data){
   console.log(data)
   for (i=0; i<data.length; i++){
+
+    let scoresArray = []
+    scoresArray = data[i].submissions.map(sub => sub.score) 
+
+    let tokenArray = []
+    tokenArray = data[i].submissions.map(sub => sub.token)
+
     display.insertAdjacentHTML('beforeend',
       `<tr style="background-color: ${isEven(i) ? "white": "lightgrey" };">
         <th >
           Unit ${i + 1}: ${data[i].name}
         </th>
         
-        <th style="color: ${scoreColor(getBestScore(data[i]))};"> 
-          ${getBestScore(data[i])} 
+        <th style="color: ${scoreColor(getBestScore(scoresArray))};"> 
+          ${getBestScore(scoresArray)} 
         </th>
         
-        <th style= "color: ${scoreColor(getAverageScore(data[i]))};" >
-          ${getAverageScore(data[i])} 
+        <th style= "color: ${scoreColor(getAverageScore(scoresArray))};" >
+          ${getAverageScore(scoresArray)} 
         </th>
         
         <th> 
-          ${getFirstToken(data[i]) === "N/A" ? "N/A" : displayProjectAttempts(data[i])}
+          ${getFirstToken(tokenArray) === "N/A" ? "N/A" : displayProjectAttempts(tokenArray)}
         </th>
       </tr >`
     )
   }
 } // loop through data fetched from db.json file and display information to DOM 
 
-function getBestScore(data){
-  let scoresArray = []
-  scoresArray = data.submissions.map(sub => sub.score)
+function getBestScore(scoresArray){
   return scoresArray.length > 0 ? Math.max(...scoresArray) : "N/A" 
-} //iterate over each unit's submissions scores and find the max score in the array
+} // find the max score in the scoresArray
 
-function getAverageScore(data){
-  let scoresArray = []
-  scoresArray = data.submissions.map(sub => sub.score)
+function getAverageScore(scoresArray){
   let sum = scoresArray.reduce((a,b) => a += b, 0)
   return scoresArray.length > 0 ? sum/(scoresArray.length) : "N/A"
-} //iterate over each unit's submissions scores and get the average
+} // calculate average of scoresArray
 
-function getNumberOfAttempts(data){
-  let tokenArray = []
-  tokenArray = data.submissions.map(sub => sub.token)
+function getNumberOfAttempts(tokenArray){
   return tokenArray.length
-} // length of the submissions array for each unit to determine number of attempts
+} // length of the tokenArray to determine number of attempts
 
-function getFirstToken(data){
-  let tokenArray = []
-  tokenArray = data.submissions.map(sub => sub.token)
+function getFirstToken(tokenArray){
   return tokenArray.length > 0 ? tokenArray[0] : "N/A"
-} // getting the first unit out of each submission array 
+} // get first token in the tokenArray 
 
 function displayProjectAttempts(data){
   if (getNumberOfAttempts(data) === 1) {

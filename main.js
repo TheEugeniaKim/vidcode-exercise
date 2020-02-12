@@ -60,7 +60,7 @@ function getFirstToken(data){
   let tokenArray = []
   tokenArray = data.submissions.map(sub => sub.token)
   return tokenArray.length > 0 ? tokenArray[0] : "N/A"
-} // getting the first unit out of each 
+} // getting the first unit out of each submission array 
 
 function displayProjectAttempts(data){
   if (getNumberOfAttempts(data) === 1) {
@@ -69,7 +69,7 @@ function displayProjectAttempts(data){
     let num = getNumberOfAttempts(data)
     return `<a href="http://www.vidcode.com/share/${getFirstToken(data)}"> ${num}  Attempts </a>`
   }
-}//
+} //inserting links into table cells that have attempts 
 
 function scoreColor(scoreValue){
   if (scoreValue >= 90){
@@ -81,11 +81,11 @@ function scoreColor(scoreValue){
   } else if (scoreValue === "N/A"){
     return "black"
   }
-}
+} // conditionally rendering score colors with inline styling based on scoreValue
 
 function isEven(index){
   if (index%2 === 0) {
     return true
   } else
     return false
-}
+} // checking to see if index is even or odd number
